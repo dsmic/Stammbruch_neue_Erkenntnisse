@@ -1,11 +1,35 @@
 # Stammbruchzerlegung mit O(log log b) Termen
 
-Python-Programm, das die Konstruktion aus dem Beweis von
+## Worum es geht
+
+Im September 2026 hat ein KI-Modell von OpenAI eine 76 Jahre alte Vermutung von Paul Erdős
+bewiesen: Jeder Bruch a/b lässt sich als Summe von höchstens c · log log b *verschiedenen*
+Stammbrüchen (1/n) schreiben, und besser geht es im schlechtesten Fall nicht.
 
 > OpenAI, *Short Egyptian fractions*, OpenAI Math Release Preprint, 25. September 2026
-> ([github.com/openai/math](https://github.com/openai/math/tree/main/preprints/Short-Egyptian-fractions-September-25-2026))
+> ([github.com/openai/math](https://github.com/openai/math/tree/main/preprints/Short-Egyptian-fractions-September-25-2026)),
+> Erdős-Problem [#304](https://www.erdosproblems.com/304).
 
-umsetzt. Dort wird die Vermutung von Erdős (1950, Erdős-Problem #304) bewiesen:
+Dieses Projekt hat zwei Ziele:
+
+1. **Den Beweis greifbar machen.** Die Konstruktion aus dem Beweis wird in Python umgesetzt
+   (`stammbruch_loglog.py`), an konkreten Brüchen mit bis zu 55-stelligen Nennern
+   ausgeführt und exakt geprüft. Messungen zeigen, wie sich die Länge der Zerlegungen
+   tatsächlich verhält, und Vergleiche ordnen das Ergebnis ein: mit dem älteren Verfahren
+   von Erdős (1950, `erdos1950.py`) und mit den exakt berechneten kürzesten Zerlegungen für
+   kleine Nenner (`optimum.py`).
+2. **Unterrichtsmaterial.** Ein Arbeitsblatt für die Klasse 10 (Gymnasium NRW,
+   45–90 Minuten) vermittelt, dass ein jahrzehntealtes mathematisches Problem jetzt mit KI
+   gelöst wurde, und regt zur kritischen Einordnung an (`arbeitsblatt/`, Markdown und PDF,
+   mit Lösungen).
+
+Die Ergebnisse in Kürze: Bei 50-stelligen Nennern braucht die neue Konstruktion im
+schlechtesten gemessenen Fall 28 Stammbrüche, Erdős' Verfahren von 1950 dagegen 78. Bei
+10 000 Stellen liefert Erdős' Verfahren 6488. Die neue Konstruktion bleibt bis 55 Stellen
+bei etwa 6 · log log b, ist aber wegen ihres Rechenaufwands nicht darüber hinaus ausführbar.
+Was über die Konstante c bekannt ist, steht im Abschnitt „Die Konstanten c₁ und c₂“.
+
+## Der Satz
 
 **Satz 1.1.** Es gibt absolute Konstanten c₁, c₂ > 0, so dass für alle großen b
 
@@ -114,6 +138,35 @@ Die untere Schranke (a = b−1 braucht ≥ log log b/(1+log 2) Terme) ist im Tes
   Länge dem O(log log b)-Verhalten; für größere b wächst sie mit gedeckeltem m
   ungefähr wie S/m-max, bis man `--m-max` erhöht (jede Erhöhung um 1 verdoppelt die
   Rechenzeit pro Schritt).
+
+## Die Konstanten c₁ und c₂
+
+(log ist hier der natürliche Logarithmus.)
+
+* **Untere Konstante c₁, explizit bekannt.** Das Argument von Erdős (im Paper im Beweis von
+  Satz 1.1 wiedergegeben) zeigt: Braucht (b−1)/b nur k Stammbrüche, so gilt
+  b ≤ (k+1)^(2^k), also log log b ≤ (1 + log 2) · k. Damit ist
+  **c₁ = 1/(1 + log 2) ≈ 0,59** für *alle* b ≥ 3 (nicht erst für große b). Beispiel: Bei
+  10 000 Stellen braucht (b−1)/b mindestens 14 Stammbrüche, denn mit 13 reicht es nur bis
+  9390 Stellen.
+* **Obere Konstante c₂, im Paper nicht angegeben.** Das Paper schreibt ausdrücklich, dass
+  es c₂ nicht quantifiziert („without quantifying the constant c₂“). Der Beweis ist aber
+  konstruktiv, und alle Parameter sind explizit gewählt (K = 100, R = 1000, D₀ = 10⁵,
+  η = 10⁻⁴). Verfolgt man sie, ergibt sich eine Länge von höchstens etwa 2L · log S mit
+  L = B₀ + K_d und K_d = 3·D_X/η, D_X = (2R+2)(K+2) + 2 = 204 206, also
+  K_d ≈ 6 · 10⁹. Das heißt **c₂ in der Größenordnung 10¹⁰**, und das auch nur oberhalb
+  einer Schwelle b₀ („für hinreichend großes S“), die das Paper ebenfalls nicht beziffert.
+  Diese Abschätzung ist eine eigene Grobrechnung aus den Parametern des Papers, nicht
+  vollständig nachgeprüft; sie zeigt nur, dass die Konstante des Beweises mit der
+  praktisch beobachteten nichts zu tun hat.
+* **Explizit für die Zähler a = b−1.** Im Abschnitt „A quantitative prescribed-denominator
+  bound“ beweist das Paper mit einer direkteren Konstruktion: Jede Zahl m kommt als Nenner in einer Zerlegung von 1 mit höchstens
+  (257/log 2 + ε) · log log m ≈ **371 · log log m** Stammbrüchen vor (für m ≥ m_ε). Das
+  liefert insbesondere eine explizite Konstante für (m−1)/m, aber nicht für beliebige a.
+* **Praktisch beobachtet.** Die Konstruktion dieses Programms (mit kleinen Parametern)
+  liefert bis 55 Stellen etwa **6 · log log b**. Die exakten Rekordwerte für kleine b
+  (`optimum.py`, OEIS A097048) liegen bei N(b)/log log b ≈ 3,4 (b = 27 539, N = 8).
+  Welchen Wert N(b)/log log b für b → ∞ tatsächlich hat, ist offen.
 
 ## Messwerte
 
