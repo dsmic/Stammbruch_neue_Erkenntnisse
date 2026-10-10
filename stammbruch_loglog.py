@@ -591,7 +591,7 @@ def spezielle_zaehler(b: int) -> Dict[str, int]:
     langsamsten, und a = b-1 liefert auch die untere Schranke log log b."""
     kandidaten = {"b-1": b - 1, "b-2": b - 2, "b-3": b - 3, "b-10": b - 10}
     for k in (3, 4, 10, 100):
-        kandidaten[f"b(1-1/{k})"] = b * (k - 1) // k
+        kandidaten[f"floor({k - 1}b/{k})"] = b * (k - 1) // k
     return {n: a for n, a in kandidaten.items() if 1 <= a < b}
 
 
