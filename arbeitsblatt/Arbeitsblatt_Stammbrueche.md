@@ -5,8 +5,6 @@
 
 *Hilfsmittel: Taschenrechner. Teile A–D: ca. 45 Minuten, Teil E: weitere 30–45 Minuten.*
 
----
-
 ## Teil A – Rechnen wie im alten Ägypten
 
 > **Info:** Im alten Ägypten wurden Brüche (fast) nur als Summen von **Stammbrüchen**
@@ -22,13 +20,11 @@
 
 **A2** Zerlege in verschiedene Stammbrüche:
 
-| Bruch | Zerlegung |
-|---|---|
-| 3/4 | |
-| 5/6 | |
-| 7/12 | |
+3/4 = ……………………………………………………
 
----
+5/6 = ……………………………………………………
+
+7/12 = ……………………………………………………
 
 ## Teil B – Ein Rezept: die „gierige“ Methode
 
@@ -36,6 +32,7 @@ Leonardo von Pisa (genannt *Fibonacci*) beschrieb im Jahr 1202 ein Verfahren, da
 funktioniert:
 
 > **Rezept**
+>
 > 1. Suche den **größten** Stammbruch 1/n, der noch in den Bruch hineinpasst.
 >    (Tipp: Bilde den Kehrwert des Bruchs und **runde auf**. Für 4/5 ist der Kehrwert 1,25 → n = 2.)
 > 2. Ziehe 1/n ab.
@@ -58,7 +55,7 @@ Was lernst du daraus über das Rezept?
 
 ______________________________________________________________________
 
----
+______________________________________________________________________
 
 ## Teil C – Die Forscherfrage
 
@@ -109,8 +106,6 @@ ungefähr brauchen? *(Das ist eine Schätzung – noch kein Beweis!)*
 
 ______________________________________________________________________
 
----
-
 ## Teil D – Das Rätsel von Paul Erdős
 
 > **Info:** Der ungarische Mathematiker **Paul Erdős** (1913–1996) schrieb über 1500
@@ -156,11 +151,10 @@ Beschreibe das Diagramm in zwei Sätzen. Welches Verfahren wird bei einem Nenner
 
 ______________________________________________________________________
 
----
-
 ## Teil E – Kritisch nachgedacht *(Erweiterung)*
 
 > **Info: Wie ist das Ergebnis entstanden?**
+>
 > * OpenAI hat einem unveröffentlichten KI-Modell rund **4000 offene Probleme** gestellt.
 >   Pro Ergebnis rechnete das Modell im Schnitt etwa **drei Stunden**.
 > * Veröffentlicht wurden über **700 Manuskripte**. Nur bei **etwa 42 %** der Hauptergebnisse
@@ -192,6 +186,7 @@ Unterschied zwischen „beweisen, dass es geht“ und „die beste Lösung finde
 ______________________________________________________________________
 
 **E4** *Diskussion in der Gruppe:*
+
 * Wer ist der „Entdecker“ – die KI, die Firma, oder die Menschen, deren Ideen die KI gelernt hat?
 * Wenn KIs in kurzer Zeit Hunderte Beweise schreiben: Wer soll sie alle prüfen und verstehen?
 * Was bedeutet das für Mathematik in der Schule und für den Beruf Mathematikerin/Mathematiker?

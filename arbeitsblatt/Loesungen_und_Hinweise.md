@@ -107,6 +107,7 @@ Beweis ist ein Werkzeug, um das zu zeigen, und kein Rezept für die kürzeste Ze
 „Es geht immer mit höchstens so vielen“ ist etwas anderes als „so findet man die beste Lösung“.
 
 **E4** Offene Diskussion. Mögliche Impulse:
+
 * Das Modell baut auf Jahrhunderten menschlicher Mathematik auf (Erdős, Vose, Fourier-Analysis
   usw.). Im Paper werden diese Vorarbeiten zitiert.
 * Hunderte Beweise auf einmal: Gutachten dauern normalerweise Monate. Computer-Prüfung (Lean)

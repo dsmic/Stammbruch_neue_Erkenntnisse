@@ -190,5 +190,7 @@ wie S/16 (100 Stellen: 59 Terme, 200 Stellen: 109 Terme).
 * `erdos1950.py` – Vergleichsverfahren: Erdős' Fakultätsmethode (log b / log log b)
 * `auswertung.py` – Anpassung der gemessenen Längen an log log b, √log b, log b/log log b
 * `diagramm.py`, `vergleich.svg` – Diagramm alt gegen neu
+* `arbeitsblatt/` – Arbeitsblatt für Klasse 10 (Markdown und PDF) mit Lösungen;
+  `arbeitsblatt/pdf_erzeugen.sh` erzeugt die PDFs neu (pandoc + Chromium)
 * `messungen_*.csv` – Messreihen (`messungen_m_paper.csv` ist die maßgebliche;
   die übrigen sind ältere bzw. abgebrochene Reihen)
