@@ -185,6 +185,8 @@ wie S/16 (100 Stellen: 59 Terme, 200 Stellen: 109 Terme).
 * `test_stammbruch_loglog.py` – Tests (Lemmata 2.2, 2.3, Identität (4.1), Teilbarkeit,
   geteilte Residuensuche, vollständige Prüfung aller a/b mit b < 40, Zufallsbrüche bis
   30 Stellen, untere Schranke)
+* `optimum.py` – exakte minimale Zerlegung N(a,b) und N(b) (für kleine b); `python3 optimum.py --rekorde 1000`
+  reproduziert OEIS A097048: 2, 3, 5, 11, 17, 79, 733 (z. B. 732/733 braucht 7 Stammbrüche)
 * `erdos1950.py` – Vergleichsverfahren: Erdős' Fakultätsmethode (log b / log log b)
 * `auswertung.py` – Anpassung der gemessenen Längen an log log b, √log b, log b/log log b
 * `diagramm.py`, `vergleich.svg` – Diagramm alt gegen neu
