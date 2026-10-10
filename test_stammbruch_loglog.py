@@ -61,6 +61,17 @@ class TestHilfsfunktionen(unittest.TestCase):
             for i in (0, 1, 77, len(res) - 1):
                 self.assertEqual(res[i], (-Q * H.eintrag(li, i)) % u)
 
+    def test_geteilte_suche_wie_vollstaendige(self):
+        # m = 16: Halbierungs-/Mehrprozess-Suche muss dieselben k kleinsten Residuen liefern
+        H = sb.Hilfsnenner.konstruiere(200.0, sb.Parameter(m_max=16))
+        self.assertEqual(H.m, 16)
+        rng = random.Random(6)
+        for prozesse in (1, 2):
+            u, Q = rng.getrandbits(500) | 1, rng.getrandbits(700)
+            res = H.residuen(0, u, Q)
+            voll = sorted((r, i) for i, r in enumerate(res))[:4]
+            self.assertEqual(H.kleinste_residuen(0, u, Q, 4, prozesse), voll)
+
     def test_residuen_identitaet(self):
         H = sb.Hilfsnenner.konstruiere(30.0, sb.Parameter(m_max=8))
         A = sb.Abstieg(H, sb.Parameter(m_max=8), e_S=10**13)

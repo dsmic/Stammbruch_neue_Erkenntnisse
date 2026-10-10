@@ -57,12 +57,22 @@ from __future__ import annotations
 import argparse
 import heapq
 import math
+import multiprocessing
+import os
 import random
 import sys
+import time
 from collections import Counter
 from dataclasses import dataclass, field
 from fractions import Fraction
 from typing import Dict, List, Optional, Sequence, Tuple
+
+try:                                    # optional: GMP-Arithmetik, ca. 4x schneller
+    import gmpy2
+    _mpz = gmpy2.mpz
+except ImportError:                     # pragma: no cover
+    gmpy2 = None
+    _mpz = int
 
 
 # ---------------------------------------------------------------------------
@@ -188,6 +198,8 @@ class Parameter:
     D_C: int = 1            # Greedy-Vorlauf bis Nenner C >= (b M)^D_C        (C >= e^{D_C S} >= X^4)
     versuche: int = 2       # Zerlegungen n = u + (n-u) im Dichte-Schritt     (eine genuegt)
     alle_listen: bool = False   # True: in jeder Phase alle Teilerlisten nutzen
+    m_paper: bool = False   # True: m = floor(S/log S) wie im Paper, ohne Deckel m_max
+    prozesse: int = 0       # Prozesse fuer die Residuensuche (0 = alle Kerne)
     seed: int = 2026
 
 
@@ -211,7 +223,7 @@ class Hilfsnenner:
         rng = random.Random(par.seed)
         S = max(S, 3.0)
         m = int(S / math.log(S))
-        m = max(par.m_min, min(par.m_max, m))
+        m = max(par.m_min, m if par.m_paper else min(par.m_max, m))
         a = max(1, math.ceil(par.D0 * math.log2(S)))
         # Paper: Primzahlen in [S^K, 2 S^K] mit m = S/log S, also m log p ~ K S.
         # Wird m aus Aufwandsgruenden gedeckelt, waehlen wir p ~ e^{K S/m}, damit
@@ -241,15 +253,80 @@ class Hilfsnenner:
     def residuen(self, liste: int, u: int, Q: int) -> List[int]:
         """Alle h_t(u) = (-Q t) mod u fuer die 2^m Eintraege t der Liste
         (Index i <-> Bitvektor I mit I_j = Bit j von i)."""
-        res = [(-Q) % u]
-        for c0, c1 in self.listen[liste]:
-            c0 %= u
-            c1 %= u
-            if c0 == 1:
-                res = res + [x * c1 % u for x in res]
-            else:
-                res = [x * c0 % u for x in res] + [x * c1 % u for x in res]
-        return res
+        return _produkte_mod(self.listen[liste], u, (-Q) % u)
+
+    def kleinste_residuen(self, liste: int, u: int, Q: int, k: int = 1,
+                          prozesse: int = 0) -> List[Tuple[int, int]]:
+        """Die k kleinsten (h, index) mit h = (-Q t) mod u ueber alle 2^m Eintraege.
+
+        Fuer kleines m wird die ganze Liste berechnet. Fuer grosses m wird der
+        Index in eine untere und obere Haelfte geteilt (t = t_unten * t_oben):
+        die 2^{m_u} Werte (-Q t_unten) mod u liegen im Speicher, die oberen
+        Produkte werden durchlaufen und - auf mehrere Prozesse verteilt -
+        damit multipliziert. Aufwand 2^m Multiplikationen, Speicher 2^{m/2}."""
+        paare = self.listen[liste]
+        m = len(paare)
+        if m <= 14:
+            res = self.residuen(liste, u, Q)
+            return [(res[i], i) for i in heapq.nsmallest(k, range(len(res)), key=res.__getitem__)]
+        m_u = max(12, (m + 1) // 2)
+        uu = _mpz(u)
+        unten = _produkte_mod([(_mpz(c0), _mpz(c1)) for c0, c1 in paare[:m_u]], uu, _mpz((-Q) % u))
+        oben = [(_mpz(c0), _mpz(c1)) for c0, c1 in paare[m_u:]]
+        n_oben = 1 << (m - m_u)
+        prozesse = prozesse or os.cpu_count() or 1
+        global _AUFGABE
+        _AUFGABE = (unten, oben, uu, k, m_u)
+        if prozesse == 1 or n_oben < 4 or "fork" not in multiprocessing.get_all_start_methods():
+            teile = [_teilsuche((0, n_oben))]
+        else:
+            stuecke = min(n_oben, 8 * prozesse)
+            grenzen = [n_oben * i // stuecke for i in range(stuecke + 1)]
+            with multiprocessing.get_context("fork").Pool(prozesse) as pool:
+                teile = pool.map(_teilsuche, list(zip(grenzen, grenzen[1:])))
+        _AUFGABE = None
+        return heapq.nsmallest(k, (x for teil in teile for x in teil))
+
+
+def _produkte_mod(paare, u, start):
+    """Liste start * prod_j c_{j,I_j} mod u ueber alle Bitvektoren I."""
+    res = [start % u]
+    for c0, c1 in paare:
+        c0 %= u
+        c1 %= u
+        if c0 == 1:
+            res = res + [x * c1 % u for x in res]
+        else:
+            res = [x * c0 % u for x in res] + [x * c1 % u for x in res]
+    return res
+
+
+_AUFGABE = None     # (unten, oben, u, k, m_u); wird per fork an die Prozesse vererbt
+
+
+def _teilsuche(bereich: Tuple[int, int]) -> List[Tuple[int, int]]:
+    """k kleinste Residuen fuer die oberen Indizes in [von, bis)."""
+    unten, oben, u, k, m_u = _AUFGABE
+    von, bis = bereich
+    beste: List[Tuple[int, int]] = []          # Max-Heap ueber (-h, -index)
+    for hi in range(von, bis):
+        y = 1
+        for j, (c0, c1) in enumerate(oben):
+            y = y * (c1 if (hi >> j) & 1 else c0) % u
+        werte = [x * y % u for x in unten]
+        if k == 1:
+            v = min(werte)
+            treffer = [(v, werte.index(v))]
+        else:
+            treffer = [(werte[i], i) for i in
+                       heapq.nsmallest(k, range(len(werte)), key=werte.__getitem__)]
+        for v, i in treffer:
+            eintrag = (-int(v), -((hi << m_u) | i))
+            if len(beste) < k:
+                heapq.heappush(beste, eintrag)
+            elif eintrag > beste[0]:
+                heapq.heapreplace(beste, eintrag)
+    return sorted((-v, -i) for v, i in beste)
 
 
 # ---------------------------------------------------------------------------
@@ -303,13 +380,9 @@ class Abstieg:
         """Die k kleinsten Residuen als (h, liste, index)."""
         beste: List[Tuple[int, int, int]] = []
         for li in self._listen_fuer(u, Q):
-            res = self.residuen_cache(li, u, Q)
-            for i in heapq.nsmallest(k, range(len(res)), key=res.__getitem__):
-                beste.append((res[i], li, i))
+            for h, i in self.H.kleinste_residuen(li, u, Q, k, self.par.prozesse):
+                beste.append((h, li, i))
         return heapq.nsmallest(k, beste)
-
-    def residuen_cache(self, li: int, u: int, Q: int) -> List[int]:
-        return self.H.residuen(li, u, Q)
 
     def schritt(self, u: int, Q: int, li: int, idx: int) -> Tuple[int, int, int]:
         """Ein Schritt der Identitaet (4.1): gibt (Nenner (M/t) z, z, h) zurueck."""
@@ -513,13 +586,21 @@ def M_beschreibung(H: Hilfsnenner) -> str:
             f"log M = {log_nat(H.M):.1f}, je Liste 2^{H.m} = {2 ** H.m} Teiler")
 
 
-def _tabelle(par: Parameter, stellen: Sequence[int], proben: int) -> None:
+def _tabelle(par: Parameter, stellen: Sequence[int], proben: int,
+             csv_datei: Optional[str] = None) -> None:
+    """Experiment: Laenge der Konstruktion gegen log log b (a = b-1 und Zufallszaehler)."""
     rng = random.Random(par.seed)
-    print(f"{'Stellen':>7} {'loglog b':>9} {'a=b-1':>6} {'Zufall max':>11} "
-          f"{'Zufall mittel':>14} {'max/loglog':>11}")
+    kopf = ("Stellen", "S", "loglog_b", "m", "a=b-1", "Zufall_max", "Zufall_mittel",
+            "max/loglog", "mittel/loglog", "Sek/Zerlegung")
+    print(f"{'Stellen':>7} {'S':>7} {'loglog b':>9} {'m':>3} {'a=b-1':>6} {'Zuf.max':>8} "
+          f"{'Zuf.mittel':>10} {'max/ll':>7} {'mittel/ll':>9} {'Sek':>8}", flush=True)
+    if csv_datei and not os.path.exists(csv_datei):
+        with open(csv_datei, "w") as f:
+            f.write(",".join(kopf) + "\n")
     for st in stellen:
         b = rng.randrange(10 ** (st - 1), 10 ** st)
         ll = math.log(log_nat(b))
+        t0 = time.time()
         e0 = stammbruchzerlegung(b - 1, b, par)
         assert e0.pruefe()
         laengen = []
@@ -528,9 +609,18 @@ def _tabelle(par: Parameter, stellen: Sequence[int], proben: int) -> None:
             e = stammbruchzerlegung(a, b, par)
             assert e.pruefe(), (a, b)
             laengen.append(e.laenge)
-        mx = max(laengen + [e0.laenge])
-        print(f"{st:>7} {ll:>9.3f} {e0.laenge:>6} {max(laengen):>11} "
-              f"{sum(laengen) / len(laengen):>14.2f} {mx / ll:>11.2f}")
+        sek = (time.time() - t0) / (proben + 1)
+        alle = laengen + [e0.laenge]
+        mx, mittel = max(alle), sum(alle) / len(alle)
+        zeile = (st, e0.hilfsnenner.S, ll, e0.hilfsnenner.m, e0.laenge, max(laengen),
+                 sum(laengen) / len(laengen), mx / ll, mittel / ll, sek)
+        print(f"{st:>7} {zeile[1]:>7.1f} {ll:>9.3f} {zeile[3]:>3} {e0.laenge:>6} "
+              f"{zeile[5]:>8} {zeile[6]:>10.2f} {zeile[7]:>7.2f} {zeile[8]:>9.2f} {sek:>8.1f}",
+              flush=True)
+        if csv_datei:
+            with open(csv_datei, "a") as f:
+                f.write(",".join(f"{x:.4f}" if isinstance(x, float) else str(x)
+                                 for x in zeile) + "\n")
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
@@ -557,14 +647,20 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ap.add_argument("--versuche", type=int, default=Parameter.versuche)
     ap.add_argument("--alle-listen", action="store_true",
                     help="in jeder Phase alle Teilerlisten verwenden (kuerzer, nicht paper-treu)")
+    ap.add_argument("--m-paper", action="store_true",
+                    help="m = floor(S/log S) wie im Paper, ohne Deckel (Aufwand ~ 2^m je Schritt)")
+    ap.add_argument("--prozesse", type=int, default=0,
+                    help="Prozesse fuer die Residuensuche (0 = alle Kerne)")
+    ap.add_argument("--csv", metavar="DATEI", help="Messwerte von --tabelle anhaengen")
     ap.add_argument("--seed", type=int, default=Parameter.seed)
     args = ap.parse_args(argv)
 
     par = Parameter(K=args.K, m_max=args.m_max, R=args.R, D0=args.D0, D_C=args.DC,
-                    versuche=args.versuche, alle_listen=args.alle_listen, seed=args.seed)
+                    versuche=args.versuche, alle_listen=args.alle_listen, seed=args.seed,
+                    m_paper=args.m_paper, prozesse=args.prozesse)
 
     if args.tabelle:
-        _tabelle(par, args.stellen, args.proben)
+        _tabelle(par, args.stellen, args.proben, args.csv)
         return 0
     if args.zufall:
         rng = random.Random(args.seed)
