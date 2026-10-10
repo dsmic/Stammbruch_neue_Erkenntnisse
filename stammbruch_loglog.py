@@ -586,14 +586,28 @@ def M_beschreibung(H: Hilfsnenner) -> str:
             f"log M = {log_nat(H.M):.1f}, je Liste 2^{H.m} = {2 ** H.m} Teiler")
 
 
+def spezielle_zaehler(b: int) -> Dict[str, int]:
+    """Zaehler dicht bei b: dort laeuft der Greedy-Vorlauf (Sylvester-Folge) am
+    langsamsten, und a = b-1 liefert auch die untere Schranke log log b."""
+    kandidaten = {"b-1": b - 1, "b-2": b - 2, "b-3": b - 3, "b-10": b - 10}
+    for k in (3, 4, 10, 100):
+        kandidaten[f"b(1-1/{k})"] = b * (k - 1) // k
+    return {n: a for n, a in kandidaten.items() if 1 <= a < b}
+
+
 def _tabelle(par: Parameter, stellen: Sequence[int], proben: int,
              csv_datei: Optional[str] = None, proben_faktor: float = 0.0) -> None:
-    """Experiment: Laenge der Konstruktion gegen log log b (a = b-1 und Zufallszaehler)."""
+    """Experiment: Laenge der Konstruktion gegen log log b.
+
+    Je b werden die speziellen Zaehler dicht bei b (spezielle_zaehler) und
+    zufaellige Zaehler zerlegt; 'max' ist die groesste gemessene Laenge."""
     rng = random.Random(par.seed)
-    kopf = ("Stellen", "S", "loglog_b", "m", "a=b-1", "Zufall_max", "Zufall_mittel",
-            "max/loglog", "mittel/loglog", "Sek/Zerlegung", "Proben")
-    print(f"{'Stellen':>7} {'S':>7} {'loglog b':>9} {'m':>3} {'a=b-1':>6} {'Zuf.max':>8} "
-          f"{'Zuf.mittel':>10} {'max/ll':>7} {'mittel/ll':>9} {'Sek':>8} {'Proben':>6}", flush=True)
+    kopf = ("Stellen", "S", "loglog_b", "m", "a=b-1", "Spezial_max", "Spezial_schlechtester",
+            "Zufall_max", "Zufall_mittel", "max/loglog", "mittel/loglog", "Sek/Zerlegung",
+            "Proben")
+    print(f"{'Stellen':>7} {'S':>7} {'loglog b':>9} {'m':>3} {'a=b-1':>6} {'Spez.max':>8} "
+          f"{'schlechtester':>13} {'Zuf.max':>8} {'Zuf.mittel':>10} {'max/ll':>7} "
+          f"{'mittel/ll':>9} {'Sek':>7} {'Proben':>6}", flush=True)
     if csv_datei and not os.path.exists(csv_datei):
         with open(csv_datei, "w") as f:
             f.write(",".join(kopf) + "\n")
@@ -601,8 +615,13 @@ def _tabelle(par: Parameter, stellen: Sequence[int], proben: int,
         b = rng.randrange(10 ** (st - 1), 10 ** st)
         ll = math.log(log_nat(b))
         t0 = time.time()
-        e0 = stammbruchzerlegung(b - 1, b, par)
-        assert e0.pruefe()
+        spezial: Dict[str, int] = {}
+        H = None
+        for name, a in spezielle_zaehler(b).items():
+            e = stammbruchzerlegung(a, b, par)
+            assert e.pruefe(), (a, b)
+            spezial[name] = e.laenge
+            H = e.hilfsnenner
         laengen = []
         n_proben = math.ceil(proben_faktor * math.sqrt(st)) if proben_faktor else proben
         for _ in range(n_proben):
@@ -610,15 +629,18 @@ def _tabelle(par: Parameter, stellen: Sequence[int], proben: int,
             e = stammbruchzerlegung(a, b, par)
             assert e.pruefe(), (a, b)
             laengen.append(e.laenge)
-        sek = (time.time() - t0) / (n_proben + 1)
-        alle = laengen + [e0.laenge]
+        sek = (time.time() - t0) / (n_proben + len(spezial))
+        alle = laengen + list(spezial.values())
         mx, mittel = max(alle), sum(alle) / len(alle)
-        zeile = (st, e0.hilfsnenner.S, ll, e0.hilfsnenner.m, e0.laenge, max(laengen),
-                 sum(laengen) / len(laengen), mx / ll, mittel / ll, sek, n_proben)
-        print(f"{st:>7} {zeile[1]:>7.1f} {ll:>9.3f} {zeile[3]:>3} {e0.laenge:>6} "
-              f"{zeile[5]:>8} {zeile[6]:>10.2f} {zeile[7]:>7.2f} {zeile[8]:>9.2f} {sek:>8.1f}"
-              f" {n_proben:>6}",
-              flush=True)
+        sp_max = max(spezial.values())
+        schlechtester = max(spezial, key=spezial.get)
+        z_max = max(laengen) if laengen else 0
+        z_mittel = sum(laengen) / len(laengen) if laengen else 0.0
+        zeile = (st, H.S, ll, H.m, spezial["b-1"], sp_max, schlechtester, z_max, z_mittel,
+                 mx / ll, mittel / ll, sek, n_proben)
+        print(f"{st:>7} {H.S:>7.1f} {ll:>9.3f} {H.m:>3} {spezial['b-1']:>6} {sp_max:>8} "
+              f"{schlechtester:>13} {z_max:>8} {z_mittel:>10.2f} {mx / ll:>7.2f} "
+              f"{mittel / ll:>9.2f} {sek:>7.1f} {n_proben:>6}", flush=True)
         if csv_datei:
             with open(csv_datei, "a") as f:
                 f.write(",".join(f"{x:.4f}" if isinstance(x, float) else str(x)
