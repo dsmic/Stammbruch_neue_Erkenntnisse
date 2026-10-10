@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="720" height="420" role="img" aria-labelledby="titel beschr" font-family="system-ui, -apple-system, Segoe UI, sans-serif">
 <title id="titel">Termanzahl im schlechtesten gemessenen Fall</title>
-<desc id="beschr">Groesste gemessene Termanzahl je Stellenzahl von b: 5 Stellen: neu 15, Erdős 13; 10 Stellen: neu 23, Erdős 23; 15 Stellen: neu 23, Erdős 30; 20 Stellen: neu 25, Erdős 38; 25 Stellen: neu 25, Erdős 46; 30 Stellen: neu 26, Erdős 53; 35 Stellen: neu 26, Erdős 60; 40 Stellen: neu 28, Erdős 66; 45 Stellen: neu 28, Erdős 73; 50 Stellen: neu 28, Erdős 78</desc>
+<desc id="beschr">Groesste gemessene Termanzahl je Stellenzahl von b: 5 Stellen: neu 15, Erdős 13; 10 Stellen: neu 23, Erdős 23; 15 Stellen: neu 23, Erdős 30; 20 Stellen: neu 25, Erdős 38; 25 Stellen: neu 25, Erdős 46; 30 Stellen: neu 26, Erdős 53; 35 Stellen: neu 26, Erdős 60; 40 Stellen: neu 28, Erdős 66; 45 Stellen: neu 28, Erdős 73; 50 Stellen: neu 28, Erdős 78; 55 Stellen: neu 28, Erdős 84</desc>
 <style>
   .flaeche { fill: #fcfcfb; }
   .text1 { fill: #0b0b0b; } .text2 { fill: #52514e; }
@@ -21,57 +21,61 @@
 <text class="text2" x="56" y="44" font-size="12">je b: a = b−1, b−2, b−3, b−10, ⌊(k−1)b/k⌋ und 5 zufällige Zähler</text>
 <line class="gitter" x1="56" x2="520" y1="368.0" y2="368.0"/>
 <text class="text2" x="48" y="372.0" font-size="11" text-anchor="end">0</text>
-<line class="gitter" x1="56" x2="520" y1="329.0" y2="329.0"/>
-<text class="text2" x="48" y="333.0" font-size="11" text-anchor="end">10</text>
-<line class="gitter" x1="56" x2="520" y1="290.0" y2="290.0"/>
-<text class="text2" x="48" y="294.0" font-size="11" text-anchor="end">20</text>
-<line class="gitter" x1="56" x2="520" y1="251.0" y2="251.0"/>
-<text class="text2" x="48" y="255.0" font-size="11" text-anchor="end">30</text>
-<line class="gitter" x1="56" x2="520" y1="212.0" y2="212.0"/>
-<text class="text2" x="48" y="216.0" font-size="11" text-anchor="end">40</text>
-<line class="gitter" x1="56" x2="520" y1="173.0" y2="173.0"/>
-<text class="text2" x="48" y="177.0" font-size="11" text-anchor="end">50</text>
-<line class="gitter" x1="56" x2="520" y1="134.0" y2="134.0"/>
-<text class="text2" x="48" y="138.0" font-size="11" text-anchor="end">60</text>
-<line class="gitter" x1="56" x2="520" y1="95.0" y2="95.0"/>
-<text class="text2" x="48" y="99.0" font-size="11" text-anchor="end">70</text>
+<line class="gitter" x1="56" x2="520" y1="333.3" y2="333.3"/>
+<text class="text2" x="48" y="337.3" font-size="11" text-anchor="end">10</text>
+<line class="gitter" x1="56" x2="520" y1="298.7" y2="298.7"/>
+<text class="text2" x="48" y="302.7" font-size="11" text-anchor="end">20</text>
+<line class="gitter" x1="56" x2="520" y1="264.0" y2="264.0"/>
+<text class="text2" x="48" y="268.0" font-size="11" text-anchor="end">30</text>
+<line class="gitter" x1="56" x2="520" y1="229.3" y2="229.3"/>
+<text class="text2" x="48" y="233.3" font-size="11" text-anchor="end">40</text>
+<line class="gitter" x1="56" x2="520" y1="194.7" y2="194.7"/>
+<text class="text2" x="48" y="198.7" font-size="11" text-anchor="end">50</text>
+<line class="gitter" x1="56" x2="520" y1="160.0" y2="160.0"/>
+<text class="text2" x="48" y="164.0" font-size="11" text-anchor="end">60</text>
+<line class="gitter" x1="56" x2="520" y1="125.3" y2="125.3"/>
+<text class="text2" x="48" y="129.3" font-size="11" text-anchor="end">70</text>
+<line class="gitter" x1="56" x2="520" y1="90.7" y2="90.7"/>
+<text class="text2" x="48" y="94.7" font-size="11" text-anchor="end">80</text>
 <line class="gitter" x1="56" x2="520" y1="56.0" y2="56.0"/>
-<text class="text2" x="48" y="60.0" font-size="11" text-anchor="end">80</text>
+<text class="text2" x="48" y="60.0" font-size="11" text-anchor="end">90</text>
 <text class="text2" x="56.0" y="386" font-size="11" text-anchor="middle">0</text>
-<text class="text2" x="148.8" y="386" font-size="11" text-anchor="middle">10</text>
-<text class="text2" x="241.6" y="386" font-size="11" text-anchor="middle">20</text>
-<text class="text2" x="334.4" y="386" font-size="11" text-anchor="middle">30</text>
-<text class="text2" x="427.2" y="386" font-size="11" text-anchor="middle">40</text>
-<text class="text2" x="520.0" y="386" font-size="11" text-anchor="middle">50</text>
+<text class="text2" x="140.4" y="386" font-size="11" text-anchor="middle">10</text>
+<text class="text2" x="224.7" y="386" font-size="11" text-anchor="middle">20</text>
+<text class="text2" x="309.1" y="386" font-size="11" text-anchor="middle">30</text>
+<text class="text2" x="393.5" y="386" font-size="11" text-anchor="middle">40</text>
+<text class="text2" x="477.8" y="386" font-size="11" text-anchor="middle">50</text>
 <line class="achse" x1="56" x2="520" y1="368.0" y2="368.0"/>
 <text class="text2" x="288.0" y="408" font-size="12" text-anchor="middle">Stellen von b</text>
 <text class="text2" x="16" y="212.0" font-size="12" text-anchor="middle" transform="rotate(-90 16 212.0)">Anzahl Stammbrüche</text>
-<path class="l2" d="M102.4,317.3 L148.8,278.3 L195.2,251.0 L241.6,219.8 L288.0,188.6 L334.4,161.3 L380.8,134.0 L427.2,110.6 L473.6,83.3 L520.0,63.8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-<circle class="p2" cx="102.4" cy="317.3" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 5 Stellen, 13 Terme</title></circle>
-<circle class="p2" cx="148.8" cy="278.3" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 10 Stellen, 23 Terme</title></circle>
-<circle class="p2" cx="195.2" cy="251.0" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 15 Stellen, 30 Terme</title></circle>
-<circle class="p2" cx="241.6" cy="219.8" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 20 Stellen, 38 Terme</title></circle>
-<circle class="p2" cx="288.0" cy="188.6" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 25 Stellen, 46 Terme</title></circle>
-<circle class="p2" cx="334.4" cy="161.3" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 30 Stellen, 53 Terme</title></circle>
-<circle class="p2" cx="380.8" cy="134.0" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 35 Stellen, 60 Terme</title></circle>
-<circle class="p2" cx="427.2" cy="110.6" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 40 Stellen, 66 Terme</title></circle>
-<circle class="p2" cx="473.6" cy="83.3" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 45 Stellen, 73 Terme</title></circle>
-<circle class="p2" cx="520.0" cy="63.8" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 50 Stellen, 78 Terme</title></circle>
-<text class="text1" x="530.0" y="61.8" font-size="12" font-weight="600">78 Terme</text>
-<text class="text2" x="530.0" y="76.8" font-size="11">Erdős 1950</text>
-<path class="l1" d="M102.4,309.5 L148.8,278.3 L195.2,278.3 L241.6,270.5 L288.0,270.5 L334.4,266.6 L380.8,266.6 L427.2,258.8 L473.6,258.8 L520.0,258.8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-<circle class="p1" cx="102.4" cy="309.5" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 5 Stellen, 15 Terme</title></circle>
-<circle class="p1" cx="148.8" cy="278.3" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 10 Stellen, 23 Terme</title></circle>
-<circle class="p1" cx="195.2" cy="278.3" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 15 Stellen, 23 Terme</title></circle>
-<circle class="p1" cx="241.6" cy="270.5" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 20 Stellen, 25 Terme</title></circle>
-<circle class="p1" cx="288.0" cy="270.5" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 25 Stellen, 25 Terme</title></circle>
-<circle class="p1" cx="334.4" cy="266.6" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 30 Stellen, 26 Terme</title></circle>
-<circle class="p1" cx="380.8" cy="266.6" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 35 Stellen, 26 Terme</title></circle>
-<circle class="p1" cx="427.2" cy="258.8" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 40 Stellen, 28 Terme</title></circle>
-<circle class="p1" cx="473.6" cy="258.8" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 45 Stellen, 28 Terme</title></circle>
-<circle class="p1" cx="520.0" cy="258.8" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 50 Stellen, 28 Terme</title></circle>
-<text class="text1" x="530.0" y="256.8" font-size="12" font-weight="600">28 Terme</text>
-<text class="text2" x="530.0" y="271.8" font-size="11">neu</text>
+<path class="l2" d="M98.2,322.9 L140.4,288.3 L182.5,264.0 L224.7,236.3 L266.9,208.5 L309.1,184.3 L351.3,160.0 L393.5,139.2 L435.6,114.9 L477.8,97.6 L520.0,76.8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle class="p2" cx="98.2" cy="322.9" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 5 Stellen, 13 Terme</title></circle>
+<circle class="p2" cx="140.4" cy="288.3" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 10 Stellen, 23 Terme</title></circle>
+<circle class="p2" cx="182.5" cy="264.0" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 15 Stellen, 30 Terme</title></circle>
+<circle class="p2" cx="224.7" cy="236.3" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 20 Stellen, 38 Terme</title></circle>
+<circle class="p2" cx="266.9" cy="208.5" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 25 Stellen, 46 Terme</title></circle>
+<circle class="p2" cx="309.1" cy="184.3" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 30 Stellen, 53 Terme</title></circle>
+<circle class="p2" cx="351.3" cy="160.0" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 35 Stellen, 60 Terme</title></circle>
+<circle class="p2" cx="393.5" cy="139.2" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 40 Stellen, 66 Terme</title></circle>
+<circle class="p2" cx="435.6" cy="114.9" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 45 Stellen, 73 Terme</title></circle>
+<circle class="p2" cx="477.8" cy="97.6" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 50 Stellen, 78 Terme</title></circle>
+<circle class="p2" cx="520.0" cy="76.8" r="4" stroke-width="2"><title>Erdős 1950 (Fakultätsmethode): 55 Stellen, 84 Terme</title></circle>
+<text class="text1" x="530.0" y="74.8" font-size="12" font-weight="600">84 Terme</text>
+<text class="text2" x="530.0" y="89.8" font-size="11">Erdős 1950</text>
+<path class="l1" d="M98.2,316.0 L140.4,288.3 L182.5,288.3 L224.7,281.3 L266.9,281.3 L309.1,277.9 L351.3,277.9 L393.5,270.9 L435.6,270.9 L477.8,270.9 L520.0,270.9" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle class="p1" cx="98.2" cy="316.0" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 5 Stellen, 15 Terme</title></circle>
+<circle class="p1" cx="140.4" cy="288.3" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 10 Stellen, 23 Terme</title></circle>
+<circle class="p1" cx="182.5" cy="288.3" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 15 Stellen, 23 Terme</title></circle>
+<circle class="p1" cx="224.7" cy="281.3" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 20 Stellen, 25 Terme</title></circle>
+<circle class="p1" cx="266.9" cy="281.3" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 25 Stellen, 25 Terme</title></circle>
+<circle class="p1" cx="309.1" cy="277.9" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 30 Stellen, 26 Terme</title></circle>
+<circle class="p1" cx="351.3" cy="277.9" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 35 Stellen, 26 Terme</title></circle>
+<circle class="p1" cx="393.5" cy="270.9" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 40 Stellen, 28 Terme</title></circle>
+<circle class="p1" cx="435.6" cy="270.9" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 45 Stellen, 28 Terme</title></circle>
+<circle class="p1" cx="477.8" cy="270.9" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 50 Stellen, 28 Terme</title></circle>
+<circle class="p1" cx="520.0" cy="270.9" r="4" stroke-width="2"><title>neu: OpenAI 2026, m = S/log S: 55 Stellen, 28 Terme</title></circle>
+<text class="text1" x="530.0" y="268.9" font-size="12" font-weight="600">28 Terme</text>
+<text class="text2" x="530.0" y="283.9" font-size="11">neu</text>
 <line class="l1" x1="68" x2="86" y1="64" y2="64" stroke-width="2"/>
 <circle class="p1" cx="77" cy="64" r="4" stroke-width="2"/>
 <text class="text1" x="94" y="68" font-size="12">neu: OpenAI 2026, m = S/log S</text>

@@ -15,7 +15,8 @@ wobei N(b) = max_{1≤a<b} N(a,b) und N(a,b) die kleinste Anzahl *verschiedener*
 Stammbrüche mit Summe a/b ist. Vorher bekannt: N(b) ≪ log b / log log b (Erdős 1950),
 N(b) ≪ √log b (Vose 1985).
 
-Das Programm hat keine Abhängigkeiten außer Python ≥ 3.8. Jede berechnete Zerlegung
+Das Programm braucht nur Python ≥ 3.8; ist `gmpy2` installiert (`pip install gmpy2`),
+wird die Residuensuche damit etwa 4-mal schneller. Jede berechnete Zerlegung
 wird am Ende mit exakter Bruchrechnung geprüft (Summe = a/b, alle Nenner verschieden
 und ≥ 2).
 
@@ -116,26 +117,76 @@ Die untere Schranke (a = b−1 braucht ≥ log log b/(1+log 2) Terme) ist im Tes
 
 ## Messwerte
 
-`python3 stammbruch_loglog.py --tabelle --stellen 5 10 20 30 50 100 200 --proben 4`
-(Standardparameter, m ≤ 16; „Zufall“ = 4 zufällige Zähler a):
+![Schlechtester gemessener Fall: neue Konstruktion gegen Erdős 1950](vergleich.svg)
 
-| Stellen von b | log log b | a = b−1 | Zufall max | Zufall Mittel | max / log log b |
-|---:|---:|---:|---:|---:|---:|
-| 5   | 2.32 | 13  | 13  | 6.5   | 5.6  |
-| 10  | 3.13 | 21  | 20  | 19.0  | 6.7  |
-| 20  | 3.83 | 24  | 22  | 20.8  | 6.3  |
-| 30  | 4.23 | 25  | 23  | 22.5  | 5.9  |
-| 50  | 4.74 | 35  | 34  | 32.8  | 7.4  |
-| 100 | 5.44 | 59  | 59  | 57.0  | 10.9 |
-| 200 | 6.13 | 109 | 107 | 106.5 | 17.8 |
+### Neue Konstruktion mit m = ⌊S/log S⌋ wie im Paper, verglichen mit Erdős 1950
 
-Bis etwa 30 Stellen (dort ist S/log S ≤ 16, also m wie im Paper) bleibt das Verhältnis
-Länge / log log b konstant bei ≈ 6. Darüber wirkt der Deckel `--m-max 16`; mit größerem
-m sinkt die Länge wieder, z. B. bei einem 50-stelligen b: m ≤ 16 → 33 Terme (2 s),
-m ≤ 18 → 32 Terme (9 s), m ≤ 20 → 28 Terme (34 s).
+```bash
+python3 stammbruch_loglog.py --tabelle --m-paper --versuche 0 --proben 5 \
+        --stellen 5 10 15 20 25 30 35 40 45 50 55 --csv messungen_m_paper.csv
+python3 erdos1950.py --csv messungen_erdos1950.csv
+python3 diagramm.py          # erzeugt vergleich.svg
+python3 auswertung.py messungen_m_paper.csv
+```
+
+Je b werden die Zähler dicht bei b zerlegt (b−1, b−2, b−3, b−10, ⌊(k−1)b/k⌋ für
+k = 3, 4, 10, 100; dort läuft der Greedy-Vorlauf entlang der Sylvester-Folge am
+langsamsten) und dazu 5 zufällige Zähler. „max“ ist die größte gemessene Länge, also
+eine *untere* Abschätzung für den schlechtesten Fall der Konstruktion über alle a.
+Das echte Maximum über alle a ist für so große b nicht berechenbar.
+
+| Stellen | log log b | m | neu: max | bei Zähler | neu: Zufall max | neu: max / log log b | Erdős 1950: max | Erdős / log log b |
+|---:|---:|---:|---:|:---|---:|---:|---:|---:|
+| 5 | 2.32 | 6 | 15 | ⌊99b/100⌋ | 13 | 6.47 | 13 | 5.6 |
+| 10 | 3.10 | 7 | 23 | b-10 | 18 | 7.41 | 23 | 7.4 |
+| 15 | 3.54 | 9 | 23 | b-1 | 22 | 6.50 | 30 | 8.5 |
+| 20 | 3.79 | 11 | 25 | b-3 | 23 | 6.60 | 38 | 10.0 |
+| 25 | 4.02 | 13 | 25 | b-2 | 25 | 6.23 | 46 | 11.5 |
+| 30 | 4.22 | 16 | 26 | b-10 | 25 | 6.16 | 53 | 12.6 |
+| 35 | 4.39 | 18 | 26 | b-1 | 24 | 5.92 | 60 | 13.7 |
+| 40 | 4.51 | 20 | 28 | b-2 | 25 | 6.20 | 66 | 14.6 |
+| 45 | 4.64 | 22 | 28 | b-1 | 26 | 6.04 | 73 | 15.7 |
+| 50 | 4.74 | 24 | 28 | ⌊99b/100⌋ | 26 | 5.91 | 78 | 16.5 |
+| 55 | 4.84 | 26 | 28 | b-1 | 27 | 5.79 | 84 | 17.4 |
+| 100 | 5.44 | – | – | – | – | – | 137 | 25.2 |
+| 200 | 6.13 | – | – | – | – | – | 235 | 38.3 |
+| 500 | 7.05 | – | – | – | – | – | 501 | 71.1 |
+| 1000 | 7.74 | – | – | – | – | – | 894 | 115.5 |
+| 2000 | 8.43 | – | – | – | – | – | 1608 | 190.6 |
+
+Beobachtungen:
+
+* **Neu:** max / log log b bleibt zwischen 10 und 55 Stellen bei etwa 6 (5,8–7,4); die
+  Rechenzeit wächst dabei wie 2^m (55 Stellen: m = 26, ≈ 100 s pro Zerlegung mit 4 Kernen).
+  Größere b sind praktisch nicht erreichbar.
+* **Erdős 1950** (`erdos1950.py`, Fakultätsmethode, höchstens 2k Terme mit k! ≥ b):
+  max / log log b wächst stetig (7 → 16 → 190), konstant ist dagegen
+  max / (log b / log log b) ≈ 3. Schon ab etwa 15 Stellen ist die neue Konstruktion
+  kürzer, bei 50 Stellen 28 gegen 78 Terme.
+* **Grenzen der Aussagekraft:** log log b wächst im messbaren Bereich nur von 3,1 auf 4,8.
+  Eine Anpassung L = α + β·f(b) passt für f = log log b, √log b und log b / log log b
+  fast gleich gut (RMS-Fehler 0,51–0,55, `auswertung.py`). Die Messung ist mit der
+  log-log-Ordnung *verträglich*, kann sie aber nicht von anderen Wachstumsraten
+  unterscheiden. Das leistet nur der Beweis.
+* Der Vergleich mit Erdős zeigt den Unterschied der Schranken deutlich, weil dessen
+  Methode bereits im messbaren Bereich linear in log b / log log b wächst.
+  Verglichen wurde nur mit Erdős 1950, nicht mit Tenenbaum–Yokota (1990, Konstante 1+ε)
+  oder Vose (1985, √log b).
+
+### Ältere Messung mit gedeckeltem m ≤ 16
+
+`python3 stammbruch_loglog.py --tabelle --stellen 5 10 20 30 50 100 200 --proben 4`:
+bis 30 Stellen ≈ 6·log log b; darüber wächst die Länge wegen des Deckels ungefähr
+wie S/16 (100 Stellen: 59 Terme, 200 Stellen: 109 Terme).
 
 ## Dateien
 
 * `stammbruch_loglog.py` – das Programm (Bibliothek + Kommandozeile)
 * `test_stammbruch_loglog.py` – Tests (Lemmata 2.2, 2.3, Identität (4.1), Teilbarkeit,
-  vollständige Prüfung aller a/b mit b < 40, Zufallsbrüche bis 30 Stellen, untere Schranke)
+  geteilte Residuensuche, vollständige Prüfung aller a/b mit b < 40, Zufallsbrüche bis
+  30 Stellen, untere Schranke)
+* `erdos1950.py` – Vergleichsverfahren: Erdős' Fakultätsmethode (log b / log log b)
+* `auswertung.py` – Anpassung der gemessenen Längen an log log b, √log b, log b/log log b
+* `diagramm.py`, `vergleich.svg` – Diagramm alt gegen neu
+* `messungen_*.csv` – Messreihen (`messungen_m_paper.csv` ist die maßgebliche;
+  die übrigen sind ältere bzw. abgebrochene Reihen)
