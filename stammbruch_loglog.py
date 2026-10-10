@@ -587,13 +587,13 @@ def M_beschreibung(H: Hilfsnenner) -> str:
 
 
 def _tabelle(par: Parameter, stellen: Sequence[int], proben: int,
-             csv_datei: Optional[str] = None) -> None:
+             csv_datei: Optional[str] = None, proben_faktor: float = 0.0) -> None:
     """Experiment: Laenge der Konstruktion gegen log log b (a = b-1 und Zufallszaehler)."""
     rng = random.Random(par.seed)
     kopf = ("Stellen", "S", "loglog_b", "m", "a=b-1", "Zufall_max", "Zufall_mittel",
-            "max/loglog", "mittel/loglog", "Sek/Zerlegung")
+            "max/loglog", "mittel/loglog", "Sek/Zerlegung", "Proben")
     print(f"{'Stellen':>7} {'S':>7} {'loglog b':>9} {'m':>3} {'a=b-1':>6} {'Zuf.max':>8} "
-          f"{'Zuf.mittel':>10} {'max/ll':>7} {'mittel/ll':>9} {'Sek':>8}", flush=True)
+          f"{'Zuf.mittel':>10} {'max/ll':>7} {'mittel/ll':>9} {'Sek':>8} {'Proben':>6}", flush=True)
     if csv_datei and not os.path.exists(csv_datei):
         with open(csv_datei, "w") as f:
             f.write(",".join(kopf) + "\n")
@@ -604,18 +604,20 @@ def _tabelle(par: Parameter, stellen: Sequence[int], proben: int,
         e0 = stammbruchzerlegung(b - 1, b, par)
         assert e0.pruefe()
         laengen = []
-        for _ in range(proben):
+        n_proben = math.ceil(proben_faktor * math.sqrt(st)) if proben_faktor else proben
+        for _ in range(n_proben):
             a = rng.randrange(1, b)
             e = stammbruchzerlegung(a, b, par)
             assert e.pruefe(), (a, b)
             laengen.append(e.laenge)
-        sek = (time.time() - t0) / (proben + 1)
+        sek = (time.time() - t0) / (n_proben + 1)
         alle = laengen + [e0.laenge]
         mx, mittel = max(alle), sum(alle) / len(alle)
         zeile = (st, e0.hilfsnenner.S, ll, e0.hilfsnenner.m, e0.laenge, max(laengen),
-                 sum(laengen) / len(laengen), mx / ll, mittel / ll, sek)
+                 sum(laengen) / len(laengen), mx / ll, mittel / ll, sek, n_proben)
         print(f"{st:>7} {zeile[1]:>7.1f} {ll:>9.3f} {zeile[3]:>3} {e0.laenge:>6} "
-              f"{zeile[5]:>8} {zeile[6]:>10.2f} {zeile[7]:>7.2f} {zeile[8]:>9.2f} {sek:>8.1f}",
+              f"{zeile[5]:>8} {zeile[6]:>10.2f} {zeile[7]:>7.2f} {zeile[8]:>9.2f} {sek:>8.1f}"
+              f" {n_proben:>6}",
               flush=True)
         if csv_datei:
             with open(csv_datei, "a") as f:
@@ -651,6 +653,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                     help="m = floor(S/log S) wie im Paper, ohne Deckel (Aufwand ~ 2^m je Schritt)")
     ap.add_argument("--prozesse", type=int, default=0,
                     help="Prozesse fuer die Residuensuche (0 = alle Kerne)")
+    ap.add_argument("--proben-faktor", type=float, default=0.0, metavar="F",
+                    help="statt --proben: ceil(F * sqrt(Stellen)) Zufallszaehler je b")
     ap.add_argument("--csv", metavar="DATEI", help="Messwerte von --tabelle anhaengen")
     ap.add_argument("--seed", type=int, default=Parameter.seed)
     args = ap.parse_args(argv)
@@ -660,7 +664,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                     m_paper=args.m_paper, prozesse=args.prozesse)
 
     if args.tabelle:
-        _tabelle(par, args.stellen, args.proben, args.csv)
+        _tabelle(par, args.stellen, args.proben, args.csv, args.proben_faktor)
         return 0
     if args.zufall:
         rng = random.Random(args.seed)
