@@ -139,6 +139,12 @@ berechnet.
 
 * Die KI baut auf Jahrhunderten menschlicher Mathematik auf (Erdős, Vose und viele andere).
   Im Paper werden diese Vorarbeiten zitiert. Als Autor ist „OpenAI“ angegeben.
+* Konkretes Beispiel (Infokasten): van Doorn und Tang (arXiv 2512.22083, Fassung vom
+  24.05.2026) bewiesen v(k) ≥ e^{ck²} für Erdős-Problem #293 und schrieben, mit
+  N(b) ≪ log log b sei vermutlich e^{e^{ck}} erreichbar. Das OpenAI-Paper beweist genau das
+  (v(k) ≥ exp(exp(k/600))) und schreibt, die beiden „anticipate the connection“. Menschen
+  haben die Frage und den Weg formuliert, die KI hat den fehlenden Beweis geliefert. Die
+  Frage nach der „Entdeckung“ ist also keine Entweder-oder-Frage.
 * Hunderte Arbeiten auf einmal: Fachleute können nicht alles prüfen; Prüfprogramme helfen,
   gibt es aber bisher nur für einen Teil.
 * Selbst Mathematik zu können bleibt nötig, um Ergebnisse zu verstehen, zu beurteilen und

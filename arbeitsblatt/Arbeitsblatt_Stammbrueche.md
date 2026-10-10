@@ -204,14 +204,32 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
+<div class="seitenumbruch"></div>
+
+> **Info: Menschen haben den Weg vorgezeichnet**
+>
+> Im Mai 2026 veröffentlichten zwei Mathematiker, Wouter van Doorn (Niederlande) und Quanyu
+> Tang (China), eine Arbeit zu einem verwandten Erdős-Problem (Nr. 293). Am Ende schrieben
+> sie sinngemäß: *„Falls Erdős' Vermutung über die Stammbrüche stimmt, lässt sich unser
+> Ergebnis vermutlich noch stark verbessern.“*
+> Vier Monate später bewies das KI-Modell die Vermutung – und lieferte genau diese
+> Verbesserung gleich mit. Im KI-Paper wird die Arbeit der beiden zitiert: Sie hätten den
+> Zusammenhang vorhergesehen.
+
 **E4** *Diskussion in der Gruppe:*
 
 * Wer hat das Rätsel gelöst – die KI, die Firma, oder die vielen Menschen, deren Mathematik
-  die KI gelernt hat?
+  die KI gelernt hat? Was zeigt dazu der Infokasten über van Doorn und Tang?
 * Wenn KIs in kurzer Zeit Hunderte Lösungen schreiben: Wer soll sie alle prüfen und verstehen?
 * Lohnt es sich noch, selbst Mathematik zu lernen, wenn eine KI so etwas kann?
 
 Notiert eure wichtigsten Argumente:
+
+______________________________________________________________________
+
+______________________________________________________________________
+
+______________________________________________________________________
 
 ______________________________________________________________________
 
