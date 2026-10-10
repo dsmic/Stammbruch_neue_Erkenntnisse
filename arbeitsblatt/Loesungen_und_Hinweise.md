@@ -120,6 +120,17 @@ enthält die vollständige, geprüfte Lean-Fassung des Beweises.
 Stellenzahl (Vose) wächst, also bei 10 000 Stellen etwa 2500 bzw. 100 (jeweils mal einem festen
 Faktor). Jetzt ist klar, dass das Wachstum so langsam ist wie überhaupt möglich (die
 Untergrenze hat dieselbe Form). Das ist eine Aussage über **alle** Nenner auf einmal.
+
+*Zusatzinfo für die Diskussion:* Verfolgt man die Zahlen im Beweis, garantiert er grob
+„höchstens etwa **10 Milliarden** mal log(log(b))“, und das auch erst für Nenner, deren
+Stellenzahl selbst unvorstellbar viele Stellen hat (grob b ab exp(exp(2^(2 450 000))); eigene
+Abschätzung, nicht im Paper angegeben). Bewiesen ist auch die Untergrenze: Für (b−1)/b braucht
+man mindestens etwa 0,59 · log(log(b)) Stammbrüche (natürlicher Logarithmus). Praktisch
+reichen nach unseren Messungen etwa 6 · log(log(b)), die exakten Rekorde liegen bei etwa
+3,4 · log(log(b)). Kontrast für die Klasse bei 10 000 Stellen
+(natürlicher Logarithmus: log(log(b)) ≈ 10): „vom Beweis garantiert: höchstens rund
+100 Milliarden – vermutlich: etwa 26 – sicher nötig: 14“. Der Beweis liefert die richtige *Wachstumsart*, nicht die richtige *Zahl*.
+
 Offen bleibt die konkrete Zahl: Mathematik kennt viele solche Ergebnisse („es gibt eine
 Konstante …“), und oft wird die Konstante erst in späteren Arbeiten verbessert oder
 berechnet.

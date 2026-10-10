@@ -159,6 +159,14 @@ Die untere Schranke (a = b−1 braucht ≥ log log b/(1+log 2) Terme) ist im Tes
   Diese Abschätzung ist eine eigene Grobrechnung aus den Parametern des Papers, nicht
   vollständig nachgeprüft; sie zeigt nur, dass die Konstante des Beweises mit der
   praktisch beobachteten nichts zu tun hat.
+* **Die Schwelle b₀ ist das eigentliche Problem.** Der Satz gilt nur „für hinreichend
+  großes b“. Die Schwelle wird im Beweis von der Abschätzung der Exponentialsummen
+  Σ e(Z/n) nach van der Corput bestimmt (Lemma zu den „reciprocal phases“ in Abschnitt 4).
+  Dort ist die Ersparnis δ_B = 1/(10·Q_B·2^{Q_B}) mit Q_B ≈ 3·D_C ≈ 2,45 · 10⁶. Damit sie
+  greift, muss grob log S ≳ 1/δ_B sein, also etwa
+  **b₀ ≈ exp(exp(2^{2 450 000}))**, eine dreifach exponentielle Zahl. Unterhalb davon
+  garantiert der Beweis in dieser Form nichts. (Eigene Grobabschätzung aus den Parametern
+  des Papers.)
 * **Explizit für die Zähler a = b−1.** Im Abschnitt „A quantitative prescribed-denominator
   bound“ beweist das Paper mit einer direkteren Konstruktion: Jede Zahl m kommt als Nenner in einer Zerlegung von 1 mit höchstens
   (257/log 2 + ε) · log log m ≈ **371 · log log m** Stammbrüchen vor (für m ≥ m_ε). Das
@@ -167,6 +175,26 @@ Die untere Schranke (a = b−1 braucht ≥ log log b/(1+log 2) Terme) ist im Tes
   liefert bis 55 Stellen etwa **6 · log log b**. Die exakten Rekordwerte für kleine b
   (`optimum.py`, OEIS A097048) liegen bei N(b)/log log b ≈ 3,4 (b = 27 539, N = 8).
   Welchen Wert N(b)/log log b für b → ∞ tatsächlich hat, ist offen.
+
+### Wie aussichtsreich wäre es, c₂ zu verkleinern?
+
+Die Größe von c₂ ≈ 2 · 3·D_X/η · (…) kommt aus drei bewusst großzügigen Wahlen: der
+garantierten Abstiegsrate η = 10⁻⁴ (heuristisch möglich ist etwa log 2 pro Bit von m), aus
+D_X ≈ 2·10⁵ (R = 1000 Zufallslisten und Primzahlen der Größe S¹⁰⁰, nötig, um *jeden*
+Zähler abzudecken) und dem Faktor 2 aus n = u + (n−u). Das Paper sagt selbst, die Zahlen
+ließen „room in the estimates“. Eigene Einschätzung:
+
+| Ziel | Aussicht | Begründung |
+|---|---|---|
+| irgendein explizites c₂ und b₀ | gut | Der Beweis ist konstruktiv, nur Buchhaltung; Werte wären aber absurd (c₂ ≈ 10¹⁰, b₀ wie oben) |
+| c₂ ≈ 10²–10³ für große b | realistisch (Forschungsprojekt) | Parameter optimieren; die direktere Methode für a = b−1 (257/log 2 ≈ 371) auf alle a übertragen |
+| vernünftige Schwelle b₀ | schwer | bräuchte deutlich bessere, gleichmäßige Abschätzungen von Σ e(Z/n) für riesige Z |
+| c₂ einstellig für alle b | gering, neue Ideen nötig | der Abstieg selbst klappt praktisch mit ≈ 6 · log log b; teuer ist der *Nachweis*, dass für jeden Zähler keine Ausnahme eintritt |
+| genauer Wert von lim N(b)/log log b | sehr gering | bewiesen ≥ 0,59; exakte Rekorde ≈ 3,4; solche Konstanten bleiben oft lange offen |
+
+Das Programm zeigt dabei: Lässt man die Sicherheitsabstände des Beweises weg (K = 1,3, R = 0,
+kleinstes Residuum statt der Garantie e^{−ηm}), erreicht dieselbe Konstruktion etwa
+6 · log log b. Der Abstand zwischen 6 und 10¹⁰ ist der Preis für „bewiesen für *alle* a“.
 
 ## Messwerte
 
