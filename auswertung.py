@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Auswertung einer Messreihe (CSV von `stammbruch_loglog.py --tabelle --csv`).
 
-Passt die mittlere Laenge L(b) an drei Modelle  L = alpha + beta * f(b)  an,
+Passt die maximale Laenge L(b) (schlechtester gemessener Zaehler; die Schranke
+N(b) = max_a N(a,b) betrifft den schlechtesten Fall) an drei Modelle  L = alpha + beta * f(b)  an,
 mit f = log log b (neue Schranke), sqrt(log b) (Vose 1985) und
 log b / log log b (Erdős 1950), und gibt die Restfehler aus.
 """
@@ -23,8 +24,8 @@ def anpassen(xs, ys):
 def main(datei, ab_stellen=10):
     zeilen = [z for z in csv.DictReader(open(datei)) if int(z["Stellen"]) >= ab_stellen]
     S = [float(z["S"]) for z in zeilen]
-    # mittlere Laenge ueber a = b-1 und die Zufallszaehler
-    L = [float(z["mittel/loglog"]) * float(z["loglog_b"]) for z in zeilen]
+    # groesste gemessene Laenge ueber a = b-1 und die Zufallszaehler
+    L = [float(z["max/loglog"]) * float(z["loglog_b"]) for z in zeilen]
     modelle = {
         "log log b": [math.log(s) for s in S],
         "sqrt(log b)": [math.sqrt(s) for s in S],
