@@ -112,6 +112,42 @@ Es kann aber nicht ausschließen, dass mit seinen kleinen Parametern irgendwo ei
 deutlich länger braucht. Diese Lücke zwischen „beobachtet ≈ 6“ und „bewiesen ≈ 10¹⁰“
 schließt nur ein besserer Beweis.
 
+## Drei verschiedene Probleme: Korrektheit, Garantie, Effizienz
+
+Eine Konstruktion, die „sicher mit log log b funktioniert“, verlangt eigentlich drei Dinge,
+die ganz unterschiedlich schwer sind:
+
+1. **Korrektheit: immer eine gültige Zerlegung. Gelöst.**
+   Jeder Abstiegsschritt verkleinert den Zähler echt (h < u), der Abstieg endet also immer.
+   Das Programm prüft jede Zerlegung am Ende exakt. Für jeden einzelnen Bruch ist das
+   Ergebnis sicher, einschließlich seiner tatsächlichen Länge.
+
+2. **Längengarantie: höchstens c · log log b für *jeden* Zähler, vorab. Ein Beweisproblem.**
+   Eine solche Konstruktion gibt es: die des Papers mit seinen Parametern. Sie garantiert
+   aber nur c₂ ≈ 10¹⁰, und erst ab einer Schwelle b₀ ≈ exp(exp(2^{2 450 000})) (eigene
+   Grobabschätzung, siehe Haupt-README). Eine Garantie in der beobachteten Größenordnung
+   (≈ 6) bräuchte einen neuen, schärferen Beweis. Vor allem müssten die Ausnahmemengen viel
+   besser kontrolliert werden als mit Divisor-Momenten und Hölder-Ungleichung. Das
+   Programm mit seinen kleinen Parametern ist eine Heuristik ohne solche Garantie.
+
+3. **Effizienz: in vertretbarer Zeit berechenbar. Ein eigenes, unabhängiges Problem.**
+   Selbst mit einem perfekten c₂ bliebe die Konstruktion teuer: Pro Schritt wird unter
+   2^m ≈ 2^{S/log S} Teilern gesucht. Das wächst schneller als jedes Polynom in der
+   Stellenzahl log b. Deshalb reicht das Programm nur bis etwa 55 Stellen, mit den Paper-Parametern
+   nicht einmal bis 30. Ein Verfahren, das in Polynomialzeit garantiert O(log log b)
+   Stammbrüche liefert, ist uns nicht bekannt; das Paper liefert keins.
+
+| | Paper-Konstruktion | dieses Programm | was fehlt |
+|---|---|---|---|
+| immer korrekt | ja | ja (exakt geprüft) | – |
+| garantierte Länge c · log log b | ja, aber c ≈ 10¹⁰ ab b₀ ≈ exp(exp(2^{2 450 000})) | nein, nur beobachtet ≈ 6 | ein besserer Beweis |
+| schnell berechenbar | nein | bis ≈ 55 Stellen | ein neues Verfahren |
+
+**Praktisch** kann man für jeden *konkreten* Bruch die Heuristik ausführen und die Länge
+ablesen. Ist sie zu lang, probiert man andere Zufallslisten oder Aufspaltungen
+n = u + (n−u). Das Ergebnis ist dann für diesen Bruch zertifiziert, es fehlt nur die
+Garantie *vorab* für alle Brüche.
+
 ## Mögliche nächste Schritte
 
 * **Ausnahmen messen:** Wie oft liefert die beste Wahl ein Residuum über u·e^{−ηm}, als
