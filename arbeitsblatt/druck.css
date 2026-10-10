@@ -22,4 +22,4 @@ h2, h3 { break-after: avoid; }
 hr { border: none; border-bottom: 1px solid #888; height: 7mm; margin: 0 0 2mm; }
 img { max-width: 82%; }
 /* Teil E (Erweiterung) auf eigener Seite, damit er fuer 45 min weggelassen werden kann */
-#teil-e-kritisch-nachgedacht-erweiterung { break-before: page; }
+#teil-e-kann-man-der-ki-trauen-erweiterung { break-before: page; }

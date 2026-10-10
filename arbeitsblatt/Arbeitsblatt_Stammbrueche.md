@@ -68,7 +68,7 @@ bei welchem Nenner man zum ersten Mal eine bestimmte Anzahl von Stammbrüchen br
 
 | benötigte Stammbrüche | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |---|---|---|---|---|---|---|---|---|
-| erster Nenner b | 2 | 3 | 5 | 11 | 17 | 79 | 733 | 27 539 |
+| erster Nenner b | 2 | 3 | 5 | 11 | 17 | 79 | 733 | 27 539 |
 | Beispielbruch | 1/2 | 2/3 | 4/5 | 8/11 | 16/17 | 77/79 | 732/733 | 27538/27539 |
 
 *Zum Beispiel ist 77/79 = 1/2 + 1/3 + 1/8 + 1/62 + 1/4743 + 1/96696, und kürzer geht es nicht.*
@@ -92,7 +92,7 @@ ______________________________________________________________________
 
 | Stammbrüche | 4 | 5 | 6 | 7 | 8 |
 |---|---|---|---|---|---|
-| Nenner b | 11 | 17 | 79 | 733 | 27 539 |
+| Nenner b | 11 | 17 | 79 | 733 | 27 539 |
 | log(b) („Stellenzahl“) | | | | | |
 | log(log(b)) („Stellenzahl der Stellenzahl“) | | | | | |
 
@@ -151,47 +151,69 @@ Beschreibe das Diagramm in zwei Sätzen. Welches Verfahren wird bei einem Nenner
 
 ______________________________________________________________________
 
-## Teil E – Kritisch nachgedacht *(Erweiterung)*
+**D3** *Ein Riesen-Nenner:* Nimm einen Nenner b mit **10 000 Stellen** (so lang wie etwa
+fünf eng beschriebene Heftseiten voller Ziffern). Dann ist log(log(b)) = 4.
+Schätze mit deiner Methode aus C4, wie viele Stammbrüche man dafür ungefähr bräuchte.
 
-> **Info: Wie ist das Ergebnis entstanden?**
+______________________________________________________________________
+
+> **Info: Was man über 10 000-stellige Nenner wirklich weiß**
 >
-> * OpenAI hat einem unveröffentlichten KI-Modell rund **4000 offene Probleme** gestellt.
->   Pro Ergebnis rechnete das Modell im Schnitt etwa **drei Stunden**.
-> * Veröffentlicht wurden über **700 Manuskripte**. Nur bei **etwa 42 %** der Hauptergebnisse
->   gibt es bisher einen Computer-geprüften Beweis. OpenAI schreibt selbst, dass
->   nicht geprüfte Ergebnisse Fehler enthalten könnten.
-> * Der Beweis zu den Stammbrüchen **ist** vollständig mit dem Programm **Lean** geprüft.
->   Lean ist ein *Beweisassistent*: Ein Computerprogramm kontrolliert jeden einzelnen
->   logischen Schritt. Menschen müssen dann „nur noch“ prüfen, ob die *Aussage* richtig
->   formuliert ist.
-> * Der Beweis zeigt, dass es eine feste Zahl c gibt – er sagt aber nicht, wie groß sie
->   ist. Die Zahlen im Beweis sind riesig (zum Beispiel 100, 1000, 100 000) und wirken erst
->   bei unvorstellbar großen Nennern.
+> | | Stammbrüche |
+> |---|---|
+> | Erdős' Rechenverfahren von 1950 (vom Computer ausgeführt) | **6488** |
+> | So viele braucht man **mindestens** – für Brüche wie (b−1)/b (bewiesen von Erdős) | **14** |
+> | Neuer Satz von 2026 | höchstens „eine feste Zahl mal 4“ |
+>
+> Der neue Satz garantiert also: Es geht **immer** mit einer Anzahl, die nur so langsam wächst
+> wie die „Stellenzahl der Stellenzahl“. Statt über 6000 reichen vermutlich ein paar Dutzend.
+> **Aber:** Wie groß die „feste Zahl“ ist, verrät der Beweis nicht. Ob für jeden
+> 10 000-stelligen Nenner schon 20 oder 30 Stammbrüche reichen, weiß bis heute niemand.
 
-**E1** Ein Computer hat in Teil C alle Nenner bis 27 539 durchprobiert. Warum ist das
-trotzdem **kein** Beweis für Erdős' Vermutung?
+## Teil E – Kann man der KI trauen? *(Erweiterung)*
+
+> **Info: So ist das Ergebnis entstanden**
+>
+> * Ein KI-Modell von OpenAI, das noch nicht öffentlich ist, bekam rund **4000 ungelöste
+>   Mathematik-Probleme**. Für jedes Ergebnis hat es im Schnitt etwa **drei Stunden** gerechnet.
+> * Herausgekommen sind **über 700 Forschungsarbeiten** auf einmal. Normalerweise prüfen
+>   Fachleute eine einzige solche Arbeit oft **monatelang**, bevor sie veröffentlicht wird.
+> * Bei weniger als der Hälfte der Ergebnisse hat zusätzlich ein **Prüfprogramm** jeden
+>   einzelnen Schritt nachgerechnet – wie ein extrem pingeliger Korrektor, der keinen Fehler
+>   durchgehen lässt. Der Stammbruch-Beweis **gehört dazu**. Für die übrigen Ergebnisse
+>   schreibt OpenAI selbst, dass sie Fehler enthalten könnten.
+
+**E1** Ein Computer hat in Teil C alle Nenner bis 27 539 durchprobiert. Warum ist das
+trotzdem **kein** Beweis für die Vermutung von Erdős?
 
 ______________________________________________________________________
 
-**E2** Der Beweis ist mit Lean geprüft. Reicht das, um ihm zu vertrauen? Was könnte trotzdem
-schiefgehen?
+**E2** Stell dir vor, eine KI liefert dir die Lösung einer sehr schweren Aufgabe – zehn Seiten
+lang. Woran könntest du erkennen, ob sie stimmt? Was ändert sich, wenn ein Prüfprogramm jeden
+Schritt kontrolliert hat? Was kann das Prüfprogramm **nicht** für dich erledigen?
 
 ______________________________________________________________________
 
-**E3** Für einen Nenner mit 50 Stellen lieferte das Verfahren aus dem neuen Beweis bis zu 28
-Stammbrüche. Nach deiner Schätzung aus C4 geht es vermutlich mit deutlich weniger (etwa 14).
-Widerspricht das dem Beweis? Was ist der
-Unterschied zwischen „beweisen, dass es geht“ und „die beste Lösung finden“?
+______________________________________________________________________
+
+**E3** Der neue Beweis sagt „es reicht eine feste Zahl mal log(log(b))“, nennt die Zahl aber
+nicht. Für 10 000 Stellen weiß deshalb niemand, ob 20 Stammbrüche reichen (siehe D3).
+Ist der Beweis trotzdem ein echter Fortschritt? Begründe.
+
+______________________________________________________________________
 
 ______________________________________________________________________
 
 **E4** *Diskussion in der Gruppe:*
 
-* Wer ist der „Entdecker“ – die KI, die Firma, oder die Menschen, deren Ideen die KI gelernt hat?
-* Wenn KIs in kurzer Zeit Hunderte Beweise schreiben: Wer soll sie alle prüfen und verstehen?
-* Was bedeutet das für Mathematik in der Schule und für den Beruf Mathematikerin/Mathematiker?
+* Wer hat das Rätsel gelöst – die KI, die Firma, oder die vielen Menschen, deren Mathematik
+  die KI gelernt hat?
+* Wenn KIs in kurzer Zeit Hunderte Lösungen schreiben: Wer soll sie alle prüfen und verstehen?
+* Lohnt es sich noch, selbst Mathematik zu lernen, wenn eine KI so etwas kann?
 
 Notiert eure wichtigsten Argumente:
+
+______________________________________________________________________
 
 ______________________________________________________________________
 

@@ -8,10 +8,10 @@
 | Einstieg | 5 min | Ägypten, Papyrus Rhind; Bild des Papyrus zeigen |
 | Teil A | 8 min | Stammbrüche von Hand |
 | Teil B | 12 min | Greedy-Rezept (Fibonacci), Überraschung 5/121 |
-| Teil C | 12 min | Rekordtabelle, log-Taste als „Stellenzahl“ |
-| Teil D | 8 min | Erdős, Zeitleiste, **der Wow-Moment** |
+| Teil C | 10 min | Rekordtabelle, log-Taste als „Stellenzahl“ |
+| Teil D | 10 min | Erdős, Zeitleiste, 10 000 Stellen: **der Wow-Moment** |
 | *(45 min)* | | |
-| Teil E | 30–45 min | Kritische Einordnung, Gruppendiskussion |
+| Teil E | 30–45 min | Kann man der KI trauen? Gruppendiskussion |
 
 Für 45 Minuten Teil E weglassen oder nur E1 kurz im Plenum besprechen.
 
@@ -50,7 +50,7 @@ die Stellenzahl selbst wächst immer schneller (2 → 3 → 5).
 
 | Stammbrüche | 4 | 5 | 6 | 7 | 8 |
 |---|---|---|---|---|---|
-| b | 11 | 17 | 79 | 733 | 27 539 |
+| b | 11 | 17 | 79 | 733 | 27 539 |
 | log(b) | 1,04 | 1,23 | 1,90 | 2,87 | 4,44 |
 | log(log(b)) | 0,02 | 0,09 | 0,28 | 0,46 | 0,65 |
 
@@ -88,31 +88,50 @@ Verfahren bleibt fast flach (bei 50 Stellen 28). Bei 1000 Stellen braucht Erdős
 894 Stammbrüche (gemessen mit `erdos1950.py`); das neue Verfahren ist dort nicht mehr
 rechenbar, hochgerechnet etwa 45. Das neue Verfahren gewinnt also deutlich.
 
+**D3** Mit der Methode aus C4: 8 + (4 − 0,65) : 0,19 ≈ 8 + 18 ≈ **26** Stammbrüche
+(Schätzung). Zum Vergleich (Infokasten): Erdős' Verfahren von 1950 liefert **6488**
+(gerechnet mit `erdos1950.py` für einen zufälligen 10 000-stelligen Nenner, a = b−1).
+Die bewiesene Untergrenze **14** stammt aus Erdős' Argument: Braucht (b−1)/b nur k
+Stammbrüche, dann hat b höchstens so viele Stellen wie (k+1)^(2^k). Für k = 13 sind das
+9390 Stellen, also reichen 13 Stammbrüche bei 10 000 Stellen nicht.
+*Für starke Schüler (optional):* Stellenzahl von (k+1)^(2^k) ≈ 2^k · log(k+1) mit dem
+Taschenrechner für k = 12, 13, 14 berechnen (4563, 9390, 19270).
+Unser Programm mit dem neuen Verfahren lässt sich bei 10 000 Stellen nicht mehr ausführen;
+hochgerechnet aus den Messungen bis 55 Stellen ergäben sich etwa 60 Stammbrüche.
+**Wichtig für die Klasse:** „20 reichen“ oder „30 reichen“ kann derzeit niemand behaupten,
+weil der Beweis die feste Zahl nicht angibt. Das ist der Aufhänger für E3.
+
 ### Teil E
 
 **E1** Es gibt **unendlich viele** Nenner. Ein Muster bei kleinen Zahlen kann später
 abbrechen. Nur ein Beweis deckt **alle** Nenner ab.
 
-**E2** Lean prüft jeden logischen Schritt. Mögliche Schwachstellen:
-(1) Die **Aussage** könnte in Lean anders formuliert sein als gemeint. Das prüfen Menschen;
-hier ist die Lean-Datei mit der Aussage nur etwa 30 Zeilen lang und gut lesbar
-(`lean/ComparatorChallenges/ShortEgyptianFractions.lean` im OpenAI-Repository).
-(2) Fehler in Lean selbst oder in den verwendeten Grundlagen sind sehr unwahrscheinlich.
-(3) Ein geprüfter Beweis ist noch nicht **verstanden**: Menschen wollen auch wissen, *warum*
-es stimmt.
+**E2** Selbst prüfen: jeden Schritt nachvollziehen, Beispiele nachrechnen, Fachleute fragen.
+Bei zehn Seiten schwerer Mathematik ist das sehr aufwendig, bei über 700 Arbeiten kaum
+möglich. Das Prüfprogramm garantiert, dass **jeder Schritt logisch korrekt** ist. Es kann
+**nicht** prüfen, ob die Aufgabe richtig in die Computersprache übersetzt wurde (das müssen
+Menschen kontrollieren), und es erklärt nicht, **warum** etwas stimmt, also das Verstehen.
+*Hintergrund:* Das Prüfprogramm heißt Lean (ein sogenannter Beweisassistent). Für dieses
+Ergebnis ist die Aufgabenstellung in Lean nur etwa 30 Zeilen lang; das OpenAI-Repository
+enthält die vollständige, geprüfte Lean-Fassung des Beweises.
 
-**E3** Kein Widerspruch: Der Satz sagt, dass man mit **höchstens** c · log(log(b))
-auskommt, mit einer festen, aber unbekannten und möglicherweise großen Zahl c. Das Verfahren im
-Beweis ist ein Werkzeug, um das zu zeigen, und kein Rezept für die kürzeste Zerlegung.
-„Es geht immer mit höchstens so vielen“ ist etwas anderes als „so findet man die beste Lösung“.
+**E3** Ja, ein Fortschritt: Vorher war nur bewiesen, dass die Anzahl höchstens wie
+„Stellenzahl geteilt durch Stellenzahl der Stellenzahl“ (Erdős) bzw. wie die Wurzel der
+Stellenzahl (Vose) wächst, also bei 10 000 Stellen etwa 2500 bzw. 100 (jeweils mal einem festen
+Faktor). Jetzt ist klar, dass das Wachstum so langsam ist wie überhaupt möglich (die
+Untergrenze hat dieselbe Form). Das ist eine Aussage über **alle** Nenner auf einmal.
+Offen bleibt die konkrete Zahl: Mathematik kennt viele solche Ergebnisse („es gibt eine
+Konstante …“), und oft wird die Konstante erst in späteren Arbeiten verbessert oder
+berechnet.
 
 **E4** Offene Diskussion. Mögliche Impulse:
 
-* Das Modell baut auf Jahrhunderten menschlicher Mathematik auf (Erdős, Vose, Fourier-Analysis
-  usw.). Im Paper werden diese Vorarbeiten zitiert.
-* Hunderte Beweise auf einmal: Gutachten dauern normalerweise Monate. Computer-Prüfung (Lean)
-  hilft, aber nur für einen Teil der Ergebnisse.
-* Schule: Rechnen und Beweisen verstehen bleibt wichtig, um Ergebnisse beurteilen zu können.
+* Die KI baut auf Jahrhunderten menschlicher Mathematik auf (Erdős, Vose und viele andere).
+  Im Paper werden diese Vorarbeiten zitiert. Als Autor ist „OpenAI“ angegeben.
+* Hunderte Arbeiten auf einmal: Fachleute können nicht alles prüfen; Prüfprogramme helfen,
+  gibt es aber bisher nur für einen Teil.
+* Selbst Mathematik zu können bleibt nötig, um Ergebnisse zu verstehen, zu beurteilen und
+  die richtigen Fragen zu stellen.
 
 ---
 
