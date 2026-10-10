@@ -176,6 +176,26 @@ Die untere Schranke (a = b−1 braucht ≥ log log b/(1+log 2) Terme) ist im Tes
   (`optimum.py`, OEIS A097048) liegen bei N(b)/log log b ≈ 3,4 (b = 27 539, N = 8).
   Welchen Wert N(b)/log log b für b → ∞ tatsächlich hat, ist offen.
 
+### Bekannte Konstanten der Verfahren
+
+(log = natürlicher Logarithmus; Quellen in `literatur/notizen.md`)
+
+| Verfahren | Schranke | Konstante | Status |
+|---|---|---|---|
+| Binäres Restverfahren (Eppstein) | c · log b | 2/log 2 ≈ 2,9 | elementar |
+| Erdős 1950 (Fakultätsmethode) | c · log b / log log b | asymptotisch 2; gemessen 3,3 (10 Stellen) bis 2,95 (2000 Stellen) | aus der Konstruktion, `erdos1950.py` |
+| Tenenbaum–Yokota 1990 | c · log b / log log b | 1 + ε (ab b(ε)), Nenner ≤ 4b(log b)² log log b | explizit, zitiert im OpenAI-Paper |
+| Vose 1985 | C · √log b | **unbekannt**; auch in der modernen Fassung (van Doorn–Tang, Lemma 2.2) nicht beziffert | Original nicht eingesehen |
+| OpenAI 2026 | c₂ · log log b | **nicht quantifiziert**; Grobrechnung ≈ 10¹⁰ ab b₀ ≈ exp(exp(2^{2 450 000})) | siehe oben |
+| OpenAI 2026, nur a = b−1 | c · log log b | 257/log 2 ≈ 371 (+ε) | explizit im Paper |
+| Untergrenze (Erdős 1950) | c₁ · log log b | 1/(1 + log 2) ≈ 0,59 für alle b ≥ 3 | explizit |
+| Optimum N(b) | ? · log log b | unbekannt; exakte Rekorde ≈ 3,4 (b = 27 539) | `optimum.py`, OEIS A097048 |
+
+Als *Garantie* ist damit Tenenbaum–Yokota mit Konstante ≈ 1 das beste explizite Ergebnis.
+Die neue Schranke mit c₂ ≈ 10¹⁰ wäre erst ab etwa log b > 10¹⁰ · (log log b)² besser, also
+für Nenner mit grob 10¹³ Stellen (und erst oberhalb von b₀). Praktisch gemessen ist die
+neue Konstruktion dagegen schon ab etwa 15 Stellen kürzer als Erdős' Verfahren.
+
 ### Wie aussichtsreich wäre es, c₂ zu verkleinern?
 
 Die Größe von c₂ ≈ 2 · 3·D_X/η · (…) kommt aus drei bewusst großzügigen Wahlen: der
@@ -269,6 +289,7 @@ wie S/16 (100 Stellen: 59 Terme, 200 Stellen: 109 Terme).
 * `konstruktion/` – Analyse: Was das Programm gegenüber dem Paper anders macht, warum beides
   c · log log b ist und woher c₂ ≈ 10¹⁰ kommt; `parameter_experiment.py` misst die Länge
   in Abhängigkeit von K, R und der Auswahlregel
+* `literatur/notizen.md` – Notizen zu OpenAI 2026, van Doorn–Tang (Voses Lemma), Bettin u. a.
 * `optimum.py` – exakte minimale Zerlegung N(a,b) und N(b) (für kleine b); `python3 optimum.py --rekorde 1000`
   reproduziert OEIS A097048: 2, 3, 5, 11, 17, 79, 733 (z. B. 732/733 braucht 7 Stammbrüche)
 * `erdos1950.py` – Vergleichsverfahren: Erdős' Fakultätsmethode (log b / log log b)
